@@ -20,14 +20,14 @@ public class SmartProgressBar : MonoBehaviour {
     Text displayTextText;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         if (barToChange != null)
             barToChangeSUI = barToChange.GetComponent<SmartUI>();
         else
             Debug.LogError("SmartUIProgress bar : " + this + " reference GameObject barToChange missing");
 
         if(barTotalSpace != null)
-            barToChangeSUI = barToChange.GetComponent<SmartUI>();
+			barTotalSpaceSUI = barTotalSpace.GetComponent<SmartUI>();
         else
             Debug.LogError("SmartUIProgress bar : " + this + " reference GameObject barToChange missing");
 
