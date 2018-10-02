@@ -214,12 +214,6 @@ public class SmartUI : MonoBehaviour {
         }
     }
 
-    //static int refWidth = 1080;
-    //static int refHeight = 1920;
-
-    //static CanvasScaler scaler;
-
-
     public Vector2 getParentSize() {
         SmartUI sui = transform.parent.GetComponent<SmartUI>();
         if (sui != null)
@@ -273,10 +267,7 @@ public class SmartUI : MonoBehaviour {
 
     public static float pixelsFromUnit(UnitTypes type, float value, float parentValue, float max, bool isHeight) {
         float found = -1;
-
-        //if (scaler == null) scaler = GameObject.Find("Canvas").GetComponent<CanvasScaler>();
-
-        //float scale = isHeight ? Screen.height / Consts.refHeight : Screen.width / Consts.refWidth;
+        CanvasScaler scaler = GameObject.Find("Canvas").GetComponent<CanvasScaler>();
 
         switch (type) {
             //case UnitTypes.pixel: return isHeight ? (Screen.height / (float)refHeight) * value : (Screen.width / (float)refWidth) * value;
@@ -285,10 +276,26 @@ public class SmartUI : MonoBehaviour {
                 found = (value / 100f) *  parentValue;
                 break;
             case UnitTypes.percentOfScreenWidth:
-                found = (value / 100f) * Screen.width;
+                if (scaler.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize)
+                {
+                    if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Expand)
+                        found = (value / 100f) * scaler.referenceResolution.x;
+                    else if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Shrink)
+                        found = (value / 100f) * Screen.width * (scaler.referenceResolution.y / Screen.height);
+                }
+                else
+                    found = (value / 100f) * Screen.width;
                 break;
             case UnitTypes.percentOfScreenHeight:
-                found = (value / 100f) * Screen.height;
+                if (scaler.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize)
+                {
+                    if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Expand)
+                        found = (value / 100f) * Screen.height * (scaler.referenceResolution.x / Screen.width) ;
+                    else if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Shrink)
+                        found = (value / 100f) * scaler.referenceResolution.y;
+                }
+                else
+                    found = (value / 100f) * Screen.height;
                 break;
             //case UnitTypes.pixelOffsetFromParent:
             //    found = parentValue + value;
