@@ -282,6 +282,11 @@ public class SmartUI : MonoBehaviour {
                         found = (value / 100f) * scaler.referenceResolution.x;
                     else if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Shrink)
                         found = (value / 100f) * Screen.width * (scaler.referenceResolution.y / Screen.height);
+                    else
+                    {
+                        float offset = scaler.matchWidthOrHeight;
+                        found = ((value / 100f) * Screen.width * (scaler.referenceResolution.y / Screen.height) * (1-offset) + (value / 100f) * Screen.height * (scaler.referenceResolution.x / Screen.width) * offset);
+                    }
                 }
                 else
                     found = (value / 100f) * Screen.width;
@@ -293,6 +298,11 @@ public class SmartUI : MonoBehaviour {
                         found = (value / 100f) * Screen.height * (scaler.referenceResolution.x / Screen.width) ;
                     else if (scaler.screenMatchMode == CanvasScaler.ScreenMatchMode.Shrink)
                         found = (value / 100f) * scaler.referenceResolution.y;
+                    else
+                    {
+                        float offset = scaler.matchWidthOrHeight;
+                        found = ((value / 100f) * Screen.width * (scaler.referenceResolution.y / Screen.height) * offset + (value / 100f) * Screen.height * (scaler.referenceResolution.x / Screen.width) * (1 - offset));
+                    }
                 }
                 else
                     found = (value / 100f) * Screen.height;
