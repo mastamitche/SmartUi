@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 
 public class TimeUtils  {
+    public static long getCurrentMs()
+    {
+        return System.DateTime.Now.Ticks / 10000L;
+    }
+    public static long getRemainingTimeMs(long startTimeMs, long waitTimeMs)
+    {
+        return startTimeMs + waitTimeMs - getCurrentMs();
+    }
+    public static bool isOverTime(long startTimeMs, long waitTimeMs)
+    {
+        return getCurrentMs() > startTimeMs + waitTimeMs;
+    }
 
     public static string ConvertMillisecondsToDisplayTime(long milliSeconds)
     {
