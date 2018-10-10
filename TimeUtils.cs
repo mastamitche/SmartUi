@@ -28,6 +28,13 @@ public class TimeUtils  {
         }
         return "";
     }
+    public static string DisplayCountdown(long milliSeconds)
+    {
+        float num = milliSeconds / 1000f;
+        float rounded = (float)Math.Round(num, 1);
+        string round = rounded % 1 == 0 ? rounded + ".0" : rounded+"";
+        return round;
+    }
     public static string ConvertMillisecondsToShort(long milliSeconds)
     {
         if (milliSeconds >= 0)
